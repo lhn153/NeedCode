@@ -1,6 +1,5 @@
 package leetcode.stack;
 
-import java.sql.Array;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
