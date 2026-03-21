@@ -5,46 +5,41 @@ import java.util.List;
 
 public class ReorderLinkedList {
     public void reorderList(ListNode head) {
-        if (head == null) return;
+        if (head == null || head.next == null) return;
 
-        List<ListNode> nodes = new ArrayList<>();
-        ListNode curr = head;
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        ListNode prev = null;
+        ListNode curr = slow.next;
+        slow.next = null;
 
         while (curr != null) {
-            nodes.add(curr);
-            curr = curr.next;
+            ListNode nextTemp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextTemp;
         }
 
-        int left = 0;
-        int right = nodes.size() - 1;
+        ListNode first = head;
+        ListNode second = prev;
 
-        while (left < right) {
-            nodes.get(left).next = nodes.get(right);
-            left++;
+        while (second != null) {
+            ListNode tmp1 = first.next;
+            ListNode tmp2 = second.next;
 
-            if (left == right) break;
+            first.next = second;
+            second.next = tmp1;
 
-            nodes.get(right).next = nodes.get(left);
-            right--;
-        }
-
-        nodes.get(left).next = null;
-    }
-
-    class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
+            first = tmp1;
+            second = tmp2;
         }
     }
+
+
 }
